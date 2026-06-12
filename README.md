@@ -47,6 +47,6 @@ python app.py
 
 
 ## Author
-ThisIsSoMe
-Claude Code
-Claude Opus 4.8
+- ThisIsSoMe
+- Claude Code
+- Claude Opus 4.8
