@@ -46,7 +46,7 @@ python app.py
 - 会话管理: Flask Session
 
 
-## Author
+## Authors
 - ThisIsSoMe
 - Claude Code
 - Claude Opus 4.8
