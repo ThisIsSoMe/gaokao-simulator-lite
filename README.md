@@ -44,3 +44,9 @@ python app.py
 - AI: DeepSeek API（OpenAI SDK 兼容）
 - 前端: 原生 HTML/CSS/JS
 - 会话管理: Flask Session
+
+
+## Author
+ThisIsSoMe
+Claude Code
+Claude Opus 4.8
