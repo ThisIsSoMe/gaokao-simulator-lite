@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>带你重返高中年代</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="app">
+    <!-- 封面界面 -->
+    <div id="cover-screen" class="screen">
+      <div class="cover-container">
+        <div class="cover-content">
+          <div class="cover-icon">⏰</div>
+          <h1 class="cover-title">带你重返高中年代</h1>
+          <p class="cover-subtitle">时光倒流，重走青春</p>
+          <div class="cover-decorations">
+            <span class="decoration">📚</span>
+            <span class="decoration">✏️</span>
+            <span class="decoration">🎒</span>
+            <span class="decoration">🏫</span>
+          </div>
+          <button class="btn-primary btn-large pulse" onclick="showCreateScreen()">
+            <span>🚀</span> 开始时光之旅
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 时光机动画 -->
+    <div id="timemachine-screen" class="screen hidden">
+      <div class="timemachine-container">
+        <div class="timemachine">
+          <div class="timemachine-door door-left"></div>
+          <div class="timemachine-door door-right"></div>
+          <div class="timemachine-light"></div>
+        </div>
+        <div class="timemachine-text" id="timemachine-text">正在启动时光机...</div>
+      </div>
+    </div>
+
+    <!-- 创建角色界面 -->
+    <div id="create-screen" class="screen hidden">
+      <div class="create-container">
+        <div class="header">
+          <h1 class="title">👤 创建你的角色</h1>
+          <p class="subtitle">设定你在那个年代的高中生活</p>
+        </div>
+
+        <form id="create-form" class="create-form">
+          <!-- 基础信息 -->
+          <div class="section">
+            <h2 class="section-title">📝 基础信息</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>姓名</label>
+                <input type="text" id="name" value="张三" placeholder="你的名字">
+              </div>
+              <div class="form-group">
+                <label>性别</label>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input type="radio" name="gender" value="男" checked>
+                    <span class="radio-text">男</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="gender" value="女">
+                    <span class="radio-text">女</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group full-width">
+                <label>高中所在地</label>
+                <input type="text" id="province" placeholder="请输入，如：北京市、上海、广州等" value="北京市">
+              </div>
+              <div class="form-group full-width">
+                <label>入学年份</label>
+                <select id="startYear">
+                  <option value="2020">2020年 - 新冠时代</option>
+                  <option value="2018">2018年 - 互联网爆发</option>
+                  <option value="2015">2015年 - 移动互联网时代</option>
+                  <option value="2010">2010年 - 智能手机元年</option>
+                  <option value="2008">2008年 - 奥运之年</option>
+                  <option value="2005">2005年 - MP3时代</option>
+                  <option value="2000">2000年 - 千禧之年</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 能力值 -->
+          <div class="section">
+            <h2 class="section-title">💪 能力值</h2>
+            <div class="sliders-grid">
+              <div class="slider-group">
+                <div class="slider-header">
+                  <label>学习能力</label>
+                  <span class="slider-value" id="learningAbility-value">70</span>
+                </div>
+                <input type="range" id="learningAbility" min="1" max="100" value="70" class="slider">
+                <div class="slider-labels">
+                  <span>弱</span>
+                  <span>强</span>
+                </div>
+              </div>
+              <div class="slider-group">
+                <div class="slider-header">
+                  <label>初入高中成绩</label>
+                  <span class="slider-value" id="initialScore-value">65</span>
+                </div>
+                <input type="range" id="initialScore" min="1" max="100" value="65" class="slider">
+                <div class="slider-labels">
+                  <span>低</span>
+                  <span>高</span>
+                </div>
+              </div>
+              <div class="slider-group">
+                <div class="slider-header">
+                  <label>应对压力能力</label>
+                  <span class="slider-value" id="stressResistance-value">60</span>
+                </div>
+                <input type="range" id="stressResistance" min="1" max="100" value="60" class="slider">
+                <div class="slider-labels">
+                  <span>弱</span>
+                  <span>强</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 性格倾向 -->
+          <div class="section">
+            <h2 class="section-title">🎭 性格倾向</h2>
+            <div class="personality-grid">
+              <div class="personality-item">
+                <label>内向/外向</label>
+                <select id="introvert">
+                  <option value="70">内向</option>
+                  <option value="50" selected>中立</option>
+                  <option value="30">外向</option>
+                </select>
+              </div>
+              <div class="personality-item">
+                <label>冲动/理智</label>
+                <select id="rational">
+                  <option value="30">冲动</option>
+                  <option value="50">中立</option>
+                  <option value="70" selected>理智</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 文理科 -->
+          <div class="section">
+            <h2 class="section-title">📚 文理科偏向</h2>
+            <div class="subject-cards">
+              <label class="subject-card selected" onclick="selectSubject(this, '理科')">
+                <input type="radio" name="subjectPreference" value="理科" checked>
+                <span class="subject-icon">🔬</span>
+                <span class="subject-name">理科</span>
+                <span class="subject-desc">物理、化学、生物</span>
+              </label>
+              <label class="subject-card" onclick="selectSubject(this, '文科')">
+                <input type="radio" name="subjectPreference" value="文科">
+                <span class="subject-icon">📖</span>
+                <span class="subject-name">文科</span>
+                <span class="subject-desc">历史、地理、政治</span>
+              </label>
+              <label class="subject-card" onclick="selectSubject(this, '综合')">
+                <input type="radio" name="subjectPreference" value="综合">
+                <span class="subject-icon">🎯</span>
+                <span class="subject-name">综合</span>
+                <span class="subject-desc">自由选择</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 兴趣特长 -->
+          <div class="section">
+            <h2 class="section-title">⭐ 兴趣特长</h2>
+            <div class="interests-grid" id="interests-grid">
+              <label class="interest-tag selected">
+                <input type="checkbox" name="interest" value="数学" checked>
+                <span>📐 数学</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="物理">
+                <span>⚡ 物理</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="化学">
+                <span>🧪 化学</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="生物">
+                <span>🧬 生物</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="语文">
+                <span>📝 语文</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="英语">
+                <span>🌍 英语</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="历史">
+                <span>📜 历史</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="地理">
+                <span>🗺️ 地理</span>
+              </label>
+              <label class="interest-tag selected">
+                <input type="checkbox" name="interest" value="篮球" checked>
+                <span>🏀 篮球</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="足球">
+                <span>⚽ 足球</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="音乐">
+                <span>🎵 音乐</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="美术">
+                <span>🎨 美术</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="编程">
+                <span>💻 编程</span>
+              </label>
+              <label class="interest-tag">
+                <input type="checkbox" name="interest" value="文学">
+                <span>📚 文学</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 社交基础 -->
+          <div class="section">
+            <h2 class="section-title">👥 社交基础</h2>
+            <div class="form-group">
+              <label>初始好友数: <span id="friends-value">2</span></label>
+              <input type="range" id="initialFriends" min="0" max="10" value="2" class="slider">
+            </div>
+          </div>
+
+          <!-- 家庭情况 -->
+          <div class="section">
+            <h2 class="section-title">🏠 家庭情况</h2>
+            <div class="family-cards">
+              <label class="family-card" onclick="selectFamily(this, '完满')">
+                <input type="radio" name="familyType" value="完满">
+                <span class="family-icon">💚</span>
+                <span class="family-name">完满</span>
+                <span class="family-desc">父母健在，经济稳定</span>
+              </label>
+              <label class="family-card selected" onclick="selectFamily(this, '普通')">
+                <input type="radio" name="familyType" value="普通" checked>
+                <span class="family-icon">💙</span>
+                <span class="family-name">普通</span>
+                <span class="family-desc">家庭普通，生活无压力</span>
+              </label>
+              <label class="family-card" onclick="selectFamily(this, '穷困')">
+                <input type="radio" name="familyType" value="穷困">
+                <span class="family-icon">🧡</span>
+                <span class="family-name">穷困</span>
+                <span class="family-desc">经济困难，需要兼职</span>
+              </label>
+              <label class="family-card" onclick="selectFamily(this, '单亲')">
+                <input type="radio" name="familyType" value="单亲">
+                <span class="family-icon">💜</span>
+                <span class="family-name">单亲</span>
+                <span class="family-desc">父或母缺失，压力较大</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary btn-large">
+            <span>⏰</span> 启动时光机
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 游戏主界面 -->
+    <div id="game-screen" class="screen hidden">
+      <div class="game-container">
+        <!-- 顶部玩家信息 -->
+        <div class="player-header">
+          <div class="player-avatar">
+            <span id="player-avatar-emoji">👨‍🎓</span>
+          </div>
+          <div class="player-info">
+            <h2 id="player-name">张三</h2>
+            <p id="player-school">北京四中 · 高一</p>
+            <p id="player-era-tag" class="era-tag">新冠时代</p>
+          </div>
+          <div class="player-badges">
+            <span class="badge" id="family-badge">普通家庭</span>
+            <span class="badge" id="interest-badge">数学、篮球</span>
+          </div>
+        </div>
+
+        <!-- 时间显示 -->
+        <div class="time-display">
+          <div class="time-main">
+            <span class="time-year" id="time-year">2020</span>
+            <span class="time-year">年</span>
+            <span class="time-month" id="time-month">9月</span>
+          </div>
+          <div class="time-sub" id="time-grade">高一第一学期</div>
+        </div>
+
+        <!-- 状态面板 -->
+        <div class="status-panel">
+          <div class="status-card mood">
+            <div class="status-icon">😊</div>
+            <div class="status-info">
+              <div class="status-value" id="mood-value">80</div>
+              <div class="status-label">心情</div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="mood-bar" style="width: 80%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="status-card stress">
+            <div class="status-icon">😰</div>
+            <div class="status-info">
+              <div class="status-value" id="stress-value">30</div>
+              <div class="status-label">压力</div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="stress-bar" style="width: 30%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="status-card health">
+            <div class="status-icon">💪</div>
+            <div class="status-info">
+              <div class="status-value" id="health-value">90</div>
+              <div class="status-label">健康</div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="health-bar" style="width: 90%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="status-card score">
+            <div class="status-icon">📊</div>
+            <div class="status-info">
+              <div class="status-value" id="score-value">58.8</div>
+              <div class="status-label">预估分</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 人物关系面板 -->
+        <div class="relation-panel" id="relation-panel">
+          <h3>💞 人物关系</h3>
+          <div class="relation-list" id="relation-list">
+            <div class="history-empty">暂无人物关系</div>
+          </div>
+        </div>
+
+        <!-- 事件卡片 -->
+        <div class="event-container">
+          <div class="event-card" id="event-card" style="display: none;">
+            <div class="event-badge" id="event-badge">学业</div>
+            <h3 class="event-title" id="event-title">事件标题</h3>
+            <p class="event-description" id="event-description">事件描述...</p>
+            <div class="choices-container" id="choices-container"></div>
+          </div>
+
+          <div class="loading-spinner" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>时光流转中...</p>
+          </div>
+        </div>
+
+        <!-- 历史记录 -->
+        <div class="history-section">
+          <h3>📜 最近经历</h3>
+          <div class="history-list" id="history-list">
+            <div class="history-empty">暂无记录</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 游戏结束界面 -->
+    <div id="end-screen" class="screen hidden">
+      <div class="end-container">
+        <div class="end-header">
+          <div class="end-icon">🎓</div>
+          <h2 class="end-title">高中时光结束</h2>
+          <p class="end-subtitle">穿越之旅告一段落</p>
+        </div>
+
+        <div class="score-display">
+          <div class="score-number" id="final-score">0</div>
+          <div class="score-label">高考总分</div>
+          <div class="college-tier" id="college-tier">院校层次</div>
+        </div>
+
+        <div class="evaluation-card" id="evaluation-card">
+          <p id="evaluation-text">评价内容</p>
+        </div>
+
+        <div class="score-details" id="score-details">
+          <h3>📊 成绩单</h3>
+          <div class="score-table" id="score-table"></div>
+        </div>
+
+        <!-- 毕业晚会 -->
+        <div class="prom-section" id="prom-section" style="display: none;">
+          <h3>🎉 毕业晚会</h3>
+          <p class="choice-hint" id="prom-hint">三年高中时光画上句号。在这个特别的夜晚，有些话该说出口，有些人该好好告别。</p>
+          <div class="prom-actions" id="prom-actions"></div>
+          <ul class="prom-log" id="prom-log"></ul>
+          <button class="btn-primary" id="prom-continue" onclick="finishProm()" style="display:none;">前往志愿填报 →</button>
+        </div>
+
+        <div class="end-choices" id="end-choices" style="display: none;">
+          <h3>🎯 志愿填报</h3>
+          <p class="choice-hint" id="choice-hint">根据你的成绩，综合兴趣、家长老师建议和身边人的影响，慎重填报：</p>
+          <div class="apply-advice" id="apply-advice"></div>
+          <div class="apply-field">
+            <label>院校档次</label>
+            <div class="apply-options" id="tier-options"></div>
+          </div>
+          <div class="apply-field">
+            <label>专业方向</label>
+            <div class="apply-options" id="major-options"></div>
+          </div>
+          <label class="apply-love" id="apply-love-wrap" style="display:none;">
+            <input type="checkbox" id="apply-love-city"><span id="apply-love-label"> 💕 为了和喜欢的人去同一座城市，调整志愿</span>
+          </label>
+          <button class="btn-primary" id="apply-submit" onclick="submitApplication()">提交志愿</button>
+        </div>
+
+        <div class="apply-result" id="apply-result" style="display: none;">
+          <h3>📨 录取结果</h3>
+          <p id="apply-result-message"></p>
+          <ul class="apply-analysis" id="apply-analysis"></ul>
+        </div>
+
+        <div class="report-section" id="report-section" style="display: none;">
+          <h3>📋 三年行为总结报告</h3>
+          <p class="report-summary" id="report-summary"></p>
+          <div class="report-categories" id="report-categories"></div>
+        </div>
+
+        <div class="retry-section" id="retry-section" style="display: none;">
+          <p>对成绩不满意？</p>
+          <button class="btn-secondary" onclick="retryGame()">
+            <span>🔄</span> 选择复读
+          </button>
+        </div>
+
+        <button class="btn-primary btn-large" onclick="restartGame()">
+          <span>⏰</span> 再次穿越
+        </button>
+      </div>
+    </div>
+
+    <!-- 白光动画覆盖层 -->
+    <div id="white-flash" class="white-flash hidden">
+      <div class="flash-text" id="flash-text">正在穿越时空...</div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div class="toast-container" id="toast-container"></div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
